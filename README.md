@@ -2,6 +2,12 @@
 
 This repository documents common connection issues with Git MCP servers and their solutions based on real-world experience.
 
+## 🎉 Successful Installation Method
+
+**We've found the solution!** After extensive troubleshooting, we discovered that the UVX installer doesn't handle scoped package names properly.
+
+See our [Successful Installation Guide](successful-installation.md) for the complete solution and steps.
+
 ## Quick Start
 
 If you're experiencing connection issues with Git MCP Server:
@@ -21,14 +27,29 @@ npm error 404 Not Found - GET https://registry.npmjs.org/mcp-server-git - Not fo
 
 **Problem:** The package name is incorrect. Many users try `mcp-server-git` but this package doesn't exist in the npm registry.
 
-**Solution:** Use the correct package name: `@modelcontextprotocol/git-server`
+**Solution:** Use the correct package name format:
 ```bash
+# For UVX installer
+uvx modelcontextprotocol-git-server
+
+# For NPM installer (if available)
 npm install -g @modelcontextprotocol/git-server
-# or
-npx @modelcontextprotocol/git-server
 ```
 
-### 2. Server Transport Closure
+### 2. UVX Package Name Format Issue
+
+```
+error: Not a valid package or extra name: "@modelcontextprotocol/git-server"
+```
+
+**Problem:** UVX doesn't accept scoped package names with @ symbols.
+
+**Solution:** Remove the @ symbol and use hyphens:
+```bash
+uvx modelcontextprotocol-git-server
+```
+
+### 3. Server Transport Closure
 
 ```
 Server transport closed unexpectedly, this is likely due to the process exiting early.
@@ -43,7 +64,7 @@ Server transport closed unexpectedly, this is likely due to the process exiting 
 - Permission issues
 - Incorrect token configuration
 
-### 3. Authentication Issues
+### 4. Authentication Issues
 
 Authentication issues typically show different error patterns from what we're seeing. When you see:
 ```
@@ -63,7 +84,7 @@ Error: EADDRINUSE: address already in use :::3000
 
 **Solution:** 
 - Change the port in your configuration
-- Use a dynamic port allocation strategy
+- Use environment variables: `GIT_SERVER_PORT=3001`
 - Check for and close conflicting processes
 
 ### Environment Variable Problems
@@ -87,6 +108,7 @@ Multiple server instances can interfere with each other:
 
 | Resource | Purpose |
 |----------|---------|
+| [Successful Installation Guide](successful-installation.md) | Step-by-step guide to successful installation |
 | [Connection Checklist](connection-checklist.md) | Step-by-step verification process |
 | [Diagnostic Script](scripts/diagnose-connection.sh) | Automated troubleshooting tool |
 | [Log Analysis](log-analysis.md) | Understanding error patterns in logs |
@@ -98,15 +120,14 @@ Multiple server instances can interfere with each other:
 After attempting fixes, verify your connection with:
 
 ```bash
-# Start the server
-npx @modelcontextprotocol/git-server
+# Start the server with custom port
+uvx modelcontextprotocol-git-server --env GIT_SERVER_PORT=3001
 
-# In another terminal
-curl http://localhost:3000/status
+# Restart the app
+# Then check for Git tools in the function menu
 ```
 
 Look for these logs indicating success:
 ```
-[mcp-server-git] [info] Server transport opened
-[mcp-server-git] [info] Client transport opened
+[git-server] [info] Server started and connected successfully
 ```
