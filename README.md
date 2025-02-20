@@ -2,6 +2,15 @@
 
 This repository documents common connection issues with Git MCP servers and their solutions based on real-world experience.
 
+## Quick Start
+
+If you're experiencing connection issues with Git MCP Server:
+
+1. Run our [diagnostic script](scripts/diagnose-connection.sh) to identify common problems
+2. Follow the [connection checklist](connection-checklist.md) for step-by-step verification
+3. Check [log analysis](log-analysis.md) to understand error patterns
+4. Implement [resolution steps](resolution-steps.md) for your specific issue
+
 ## Common Connection Issues
 
 ### 1. Package Name Error
@@ -74,11 +83,15 @@ Multiple server instances can interfere with each other:
 - Log file access conflicts occur when multiple processes try to write to the same log
 - Claude desktop may start its own server instances causing conflicts
 
-## Diagnostic Resources
+## Tools & Resources
 
-- [Analyzing Git MCP Server Logs](log-analysis.md)
-- [Resolution Steps for Common Issues](resolution-steps.md)
-- [MCP Debugging Documentation](https://modelcontextprotocol.io/docs/tools/debugging)
+| Resource | Purpose |
+|----------|---------|
+| [Connection Checklist](connection-checklist.md) | Step-by-step verification process |
+| [Diagnostic Script](scripts/diagnose-connection.sh) | Automated troubleshooting tool |
+| [Log Analysis](log-analysis.md) | Understanding error patterns in logs |
+| [Resolution Steps](resolution-steps.md) | Specific solutions for common issues |
+| [MCP Debugging Docs](https://modelcontextprotocol.io/docs/tools/debugging) | Official debugging documentation |
 
 ## Verification Steps
 
